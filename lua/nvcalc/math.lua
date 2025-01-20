@@ -11,6 +11,7 @@ function M.eval_expr(expr)
 
 	local stack = { 0 }
 
+	-- Define chunks as containing: numbers, "+", "-", "*", "/"
 	for chunk in string.gmatch(expr, "([^%s]+)") do
 		local num = tonumber(chunk)
 		if num then
@@ -18,8 +19,18 @@ function M.eval_expr(expr)
 		elseif chunk == "+" then
 			local add_num = table.remove(stack)
 			stack[#stack] = stack[#stack] + add_num
+		elseif chunk == "-" then
+			local add_num = table.remove(stack)
+			stack[#stack] = stack[#stack] - add_num
+		elseif chunk == "*" then
+			local add_num = table.remove(stack)
+			stack[#stack] = stack[#stack] * add_num
+		elseif chunk == "/" then
+			local add_num = table.remove(stack)
+			stack[#stack] = stack[#stack] / add_num
 		end
 	end
+	return stack[#stack]
 end
 
 return M
